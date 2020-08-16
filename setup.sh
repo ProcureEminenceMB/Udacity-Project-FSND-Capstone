@@ -1,1 +1,2 @@
-
+JWT_SECRET='DerpyCode'
+LOG_LEVEL=DEBUG
