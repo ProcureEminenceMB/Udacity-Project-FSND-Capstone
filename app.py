@@ -20,8 +20,58 @@ def create_app(test_config=None):
 	def be_cool():
 		return "Be cool, man, be coooool! You're almost a FSND grad!"
 
+	# Error Handling
+	@app.errorhandler(400)
+	def bad_request(error):
+		return jsonify({
+			"success": False,
+			"error": 400,
+			"message": "Bad Request"
+		}), 400
+
+	@app.errorhandler(401)
+	def unauthorized(error):
+		return jsonify({
+			"success": False,
+			"error": 401,
+			"message": "Unauthorized"
+		}), 401
+
+	@app.errorhandler(403)
+	def forbidden(error):
+		return jsonify({
+			"success": False,
+			"error": 403,
+			"message": "Forbidden"
+		}), 403
+
+	@app.errorhandler(404)
+	def not_found(error):
+		return jsonify({
+			"success": False,
+			"error": 404,
+			"message": "Not Found"
+		}), 404
+
+	@app.errorhandler(422)
+	def unprocessable(error):
+		return jsonify({
+			"success": False,
+			"error": 422,
+			"message": "Unprocessable Entity"
+		}), 422
+
+	@app.errorhandler(AuthError)
+	def handle_auth_error(error):
+		return jsonify({
+			"success": False,
+			"error": error.status_code,
+			'message': error.error
+		}), 401
+
 	return app
 
+# Create and run the app
 app = create_app()
 
 if __name__ == '__main__':
