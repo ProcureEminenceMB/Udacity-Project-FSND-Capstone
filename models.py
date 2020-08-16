@@ -3,7 +3,11 @@ import json
 from sqlalchemy import Column, String, create_engine
 from flask_sqlalchemy import SQLAlchemy
 
-database_path = os.environ['DATABASE_URL']
+database_filename = "database.db"
+project_dir = os.path.dirname(os.path.abspath(__file__))
+local_database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+
+database_path = os.environ.get('DATABASE_URL', local_database_path)
 
 db = SQLAlchemy()
 
