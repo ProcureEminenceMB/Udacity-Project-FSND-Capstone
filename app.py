@@ -12,16 +12,12 @@ def create_app(test_config=None):
 	setup_db(app)
 	CORS(app)
 
+	# Routes
 	@app.route('/')
 	def get_greeting():
-		excited = os.environ['EXCITED']
+		#excited = os.environ['EXCITED']
 		greeting = "Hello" 
-		if excited == 'true': greeting = greeting + "!!!!!"
 		return greeting
-
-	@app.route('/coolkids')
-	def be_cool():
-		return "Be cool, man, be coooool! You're almost a FSND grad!"
 
 	# Error Handling
 	@app.errorhandler(400)
