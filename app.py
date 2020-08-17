@@ -15,6 +15,7 @@ def create_app(test_config=None):
 
 	# GET Routes
 	@app.route('/actors', methods=['GET'])
+	@requires_auth('get:actors')
 	def get_actors():
 		try:
 			# Get a list of all actors in DB
@@ -41,6 +42,7 @@ def create_app(test_config=None):
 			abort(422)
 
 	@app.route('/movies', methods=['GET'])
+	@requires_auth('get:movies')
 	def get_movies():
 		try:
 			# Get a list of all movies in DB
@@ -69,6 +71,7 @@ def create_app(test_config=None):
 
 	# POST Routes
 	@app.route('/actors', methods=['POST'])
+	@requires_auth('post:actors')
 	def add_actor():
 		body = request.get_json()
 
@@ -105,6 +108,7 @@ def create_app(test_config=None):
 			abort(422)
 
 	@app.route('/movies', methods=['POST'])
+	@requires_auth('post:movies')
 	def add_movie():
 		body = request.get_json()
 
@@ -145,6 +149,7 @@ def create_app(test_config=None):
 
 	# PATCH Routes
 	@app.route('/actors/<int:id>', methods=['PATCH'])
+	@requires_auth('patch:actors')
 	def patch_actors(id):
 		# Get actor details for the matching ID
 		actor = Actor.query.get(id)
@@ -171,6 +176,7 @@ def create_app(test_config=None):
 			abort(404)
 
 	@app.route('/movies/<int:id>', methods=['PATCH'])
+	@requires_auth('patch:movies')
 	def patch_movies(id):
 		# Get movie details for the matching ID
 		movie = Movie.query.get(id)
@@ -203,6 +209,7 @@ def create_app(test_config=None):
 
 	# DELETE Routes
 	@app.route('/actors/<int:id>', methods=['DELETE'])
+	@requires_auth('delete:actors')
 	def delete_actors(id):
 		# Get actor details for the matching ID
 		actor = Actor.query.get(id)
@@ -221,6 +228,7 @@ def create_app(test_config=None):
 			abort(404)
 
 	@app.route('/movies/<int:id>', methods=['DELETE'])
+	@requires_auth('delete:movies')
 	def delete_movies(id):
 		# Get movie details for the matching ID
 		movie = Movie.query.get(id)
