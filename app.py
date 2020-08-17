@@ -3,7 +3,7 @@ import json
 
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
-from models import setup_db
+from models import setup_db, Actor, Movie
 from auth import AuthError, requires_auth
 
 def create_app(test_config=None):
@@ -13,11 +13,49 @@ def create_app(test_config=None):
 	CORS(app)
 
 	# Routes
-	@app.route('/')
-	def get_greeting():
-		#excited = os.environ['EXCITED']
-		greeting = "Hello" 
-		return greeting
+	@app.route('/actors', methods=['GET'])
+	def get_actors():
+		try:
+			actorList = Actor.query.all()
+
+			if len(actorList) > 0:
+				return jsonify({
+					'success': True,
+					'actors': [actor.short() for actor in actorList],
+					'actor_count': len(actorList)
+				}), 200
+			else:
+				return jsonify({
+					'success': False,
+					'actors': [],
+					'actor_count': 0,
+					'message': 'No actors found.'
+				}), 200
+
+		except Exception:
+			abort(404)
+
+	@app.route('/movies', methods=['GET'])
+	def get_movies():
+		try:
+			movieList = Movie.query.all()
+
+			if len(movieList) > 0:
+				return jsonify({
+					'success': True,
+					'movies': [movie.short() for movie in movieList],
+					'movie_count': len(movieList)
+				}), 200
+			else:
+				return jsonify({
+					'success': False,
+					'movies': [],
+					'movie_count': 0,
+					'message': 'No movies found.'
+				}), 200
+
+		except Exception:
+			abort(404)
 
 	# Error Handling
 	@app.errorhandler(400)
