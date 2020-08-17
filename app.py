@@ -132,7 +132,7 @@ def create_app(test_config=None):
 					'success': True,
 					'movie_id': movie.id,
 					'movie_title': movie.title,
-					'movie_release_date':movie.release_date
+					'movie_release_date': movie.release_date
 				})
 
 			else:
