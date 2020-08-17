@@ -247,6 +247,88 @@ def create_app(test_config=None):
 			abort(404)
 	# END DELETE Routes
 
+	# Testing Routes for Postman
+	@app.route('/actors/<int:id>', methods=['POST'])
+	@requires_auth('post:actors')
+	def add_actor_with_id(payload, id):
+		body = request.get_json()
+
+		try:
+			forced_id = id
+			name = body.get('name', None)
+			age = int(body.get('age', 0))
+			gender = body.get('gender', None)
+
+			if name and age > 0 and gender:
+				actor = Actor(
+					name = name,
+					age = age,
+					gender = gender)
+				actor.id = forced_id
+
+				try:
+					actor.insert()
+
+				except Exception:
+					abort(422)
+
+				return jsonify({
+					'success': True,
+					'actor_id': actor.id,
+					'actor_name': actor.name,
+					'actor_age': actor.age,
+					'actor_gender': actor.gender
+				})
+
+			else:
+				abort(400)
+
+		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
+			abort(422)
+
+	@app.route('/movies/<int:id>', methods=['POST'])
+	@requires_auth('post:movies')
+	def add_movie_with_id(payload, id):
+		body = request.get_json()
+
+		try:
+			forced_id = id
+			title = body.get('title', None)
+			release_date = body.get('release_date', None)
+
+			if title and release_date:
+				date_details = release_date.split('-')
+				year = int(date_details[0])
+				month = int(date_details[1])
+				day = int(date_details[2])
+
+				movie = Movie(
+					title = title,
+					release_date = datetime.datetime(year, month, day))
+				movie.id = forced_id
+
+				try:
+					movie.insert()
+
+				except Exception:
+					abort(422)
+
+				return jsonify({
+					'success': True,
+					'movie_id': movie.id,
+					'movie_title': movie.title,
+					'movie_release_date': movie.release_date
+				})
+
+			else:
+				abort(400)
+
+		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
+			abort(422)
+	# END Testing Routes for Postman
+
 	# Error Handling
 	@app.errorhandler(400)
 	def bad_request(error):
