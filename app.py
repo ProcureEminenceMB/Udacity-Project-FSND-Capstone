@@ -169,6 +169,36 @@ def create_app(test_config=None):
 		except Exception:
 			# Return Unprocessable Entity error if the Try block fails
 			abort(422)
+
+	@app.route('/movies/<int:id>', methods=['PATCH'])
+	def patch_movies(id):
+		# Get movie details for the matching ID
+		movie = Movie.query.get(id)
+
+		try:
+			# Loop through updated keys and update the values
+			for attribute, value in request.json.items():
+				# If the actors attribute is found, reference the actors DB table
+				if attribute == 'cast':
+					setattr(movie, attribute, ",".join(str(actor_id) for actor_id in value))
+
+				else:
+					setattr(movie, attribute, value)
+
+			# Push updated values to the DB
+			movie.update()
+
+			return jsonify({
+				'success': True,
+				'movie_id': movie.id,
+				'movie_title': movie.title,
+				'movie_release_date': movie.release_date,
+				'movie_cast': movie.cast
+			}), 200
+
+		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
+			abort(422)
 	# END PATCH Routes
 
 	# DELETE Routes
