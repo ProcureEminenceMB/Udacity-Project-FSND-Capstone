@@ -168,6 +168,7 @@ def create_app(test_config=None):
 
 		except Exception:
 			# Return Not Found error if the Try block fails
+			abort(404)
 
 	@app.route('/movies/<int:id>', methods=['PATCH'])
 	def patch_movies(id):
