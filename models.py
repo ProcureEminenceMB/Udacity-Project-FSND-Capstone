@@ -22,13 +22,6 @@ def setup_db(app, database_path=database_path):
 	db.init_app(app)
 	db.create_all()
 
-# Add DB relationships
-cast_table = db.Table(
-	'cast',
-	db.Column('actor_id', db.Integer, db.ForeignKey('actors.id')),
-	db.Column('movie_id', db.Integer, db.ForeignKey('movies.id'))
-)
-
 # Classes
 class Actor(db.Model):
 	__tablename__ = 'actors'
@@ -68,11 +61,7 @@ class Movie(db.Model):
 	id = Column(Integer, primary_key=True)
 	title = Column(String)
 	release_date = Column(db.DateTime, nullable=False)
-	cast = db.relationship(
-			'Actor',
-			secondary=cast_table,
-			backref=db.backref('movies', lazy='dynamic')
-		)
+	cast = Column(String)
 
 	def __init__(self, title, release_date):
 		self.title = title
@@ -94,5 +83,5 @@ class Movie(db.Model):
 			'id': self.id,
 			'title': self.title,
 			'release date': self.release_date,
-			'cast': [actor.format() for actor in self.cast]
+			'cast': self.cast
 		}
