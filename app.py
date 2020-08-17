@@ -34,7 +34,7 @@ def create_app(test_config=None):
 				}), 200
 
 		except Exception:
-			abort(404)
+			abort(422)
 
 	@app.route('/movies', methods=['GET'])
 	def get_movies():
@@ -56,7 +56,7 @@ def create_app(test_config=None):
 				}), 200
 
 		except Exception:
-			abort(404)
+			abort(422)
 	# END GET Routes
 
 	# POST Routes
