@@ -1,5 +1,6 @@
 import os
 import json
+import datetime
 
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
@@ -56,6 +57,89 @@ def create_app(test_config=None):
 
 		except Exception:
 			abort(404)
+	# END GET Routes
+
+	# POST Routes
+	@app.route('/actors', methods=['POST'])
+	def add_actor():
+		body = request.get_json()
+
+		try:
+			name = body.get('name', None)
+			age = int(body.get('age', 0))
+			gender = body.get('gender', None)
+
+			if name and age > 0 and gender:
+				actor = Actor(
+					name = name,
+					age = age,
+					gender = gender)
+
+				try:
+					actor.insert()
+
+				except Exception:
+					abort(422)
+
+				return jsonify({
+					'success': True,
+					'actor_id': actor.id,
+					'actor_name': actor.name,
+					'actor_age': actor.age,
+					'actor_gender': actor.gender
+				})
+
+			else:
+				abort(400)
+
+		except Exception:
+			abort(422)
+
+	@app.route('/movies', methods=['POST'])
+	def add_movie():
+		body = request.get_json()
+
+		try:
+			title = body.get('title', None)
+			release_date = body.get('release_date', None)
+
+			if title and release_date:
+				date_details = release_date.split('-')
+				year = int(date_details[0])
+				month = int(date_details[1])
+				day = int(date_details[2])
+
+				movie = Movie(
+					title = title,
+					release_date = datetime.datetime(year, month, day))
+
+				try:
+					movie.insert()
+
+				except Exception:
+					abort(422)
+
+				return jsonify({
+					'success': True,
+					'movie_id': movie.id,
+					'movie_title': movie.title,
+					'movie_release_date':movie.release_date
+				})
+
+			else:
+				abort(400)
+
+		except Exception:
+			abort(422)
+	# END POST Routes
+
+	# PATCH Routes
+
+	# END PATCH Routes
+
+	# DELETE Routes
+
+	# END DELETE Routes
 
 	# Error Handling
 	@app.errorhandler(400)
