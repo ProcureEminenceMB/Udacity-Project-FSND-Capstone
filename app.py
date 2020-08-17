@@ -202,7 +202,41 @@ def create_app(test_config=None):
 	# END PATCH Routes
 
 	# DELETE Routes
+	@app.route('/actors/<int:id>', methods=['DELETE'])
+	def delete_actors(id):
+		# Get actor details for the matching ID
+		actor = Actor.query.get(id)
 
+		try:
+			# Delete entry from the DB
+			actor.delete()
+
+			return jsonify({
+				'success': True,
+				'actor_id': id
+			}), 200
+
+		except Exception:
+			# Return Not Found error if the Try block fails
+			abort(404)
+
+	@app.route('/movies/<int:id>', methods=['DELETE'])
+	def delete_movies(id):
+		# Get movie details for the matching ID
+		movie = Movie.query.get(id)
+
+		try:
+			# Delete entry from the DB
+			movie.delete()
+
+			return jsonify({
+				'success': True,
+				'movie_id': id
+			}), 200
+
+		except Exception:
+			# Return Not Found error if the Try block fails
+			abort(404)
 	# END DELETE Routes
 
 	# Error Handling
