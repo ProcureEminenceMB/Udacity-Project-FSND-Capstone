@@ -253,80 +253,109 @@ def create_app(test_config=None):
 	def add_actor_with_id(payload, id):
 		body = request.get_json()
 
-		try:
-			forced_id = id
-			name = body.get('name', None)
-			age = int(body.get('age', 0))
-			gender = body.get('gender', None)
+		# Get actor details for the matching ID if it exists
+		actor_check = Actor.query.get(id)
 
-			if name and age > 0 and gender:
-				actor = Actor(
-					name = name,
-					age = age,
-					gender = gender)
-				actor.id = forced_id
+		if actor_check is None:
 
-				try:
-					actor.insert()
+			try:
+				forced_id = id
+				name = body.get('name', None)
+				age = int(body.get('age', 0))
+				gender = body.get('gender', None)
 
-				except Exception:
-					abort(422)
+				if name and age > 0 and gender:
+					actor = Actor(
+						name = name,
+						age = age,
+						gender = gender)
+					actor.id = forced_id
 
-				return jsonify({
-					'success': True,
-					'actor_id': actor.id,
-					'actor_name': actor.name,
-					'actor_age': actor.age,
-					'actor_gender': actor.gender
-				})
+					try:
+						actor.insert()
 
-			else:
-				abort(400)
+					except Exception:
+						abort(422)
 
-		except Exception:
-			# Return Unprocessable Entity error if the Try block fails
-			abort(422)
+					return jsonify({
+						'success': True,
+						'actor_id': actor.id,
+						'actor_name': actor.name,
+						'actor_age': actor.age,
+						'actor_gender': actor.gender
+					})
+
+				else:
+					abort(400)
+
+			except Exception:
+				# Return Unprocessable Entity error if the Try block fails
+				abort(422)
+
+		else:
+			return jsonify({
+						'success': False,
+						'actor_id': actor_check.id,
+						'actor_name': actor_check.name,
+						'actor_age': actor_check.age,
+						'actor_gender': actor_check.gender,
+						'message': 'An actor with that ID alread exists. Details are included in this response.'
+					})
 
 	@app.route('/movies/<int:id>', methods=['POST'])
 	@requires_auth('post:movies')
 	def add_movie_with_id(payload, id):
 		body = request.get_json()
 
-		try:
-			forced_id = id
-			title = body.get('title', None)
-			release_date = body.get('release_date', None)
+		# Get movie details for the matching ID if it exists
+		movie_check = Movie.query.get(id)
 
-			if title and release_date:
-				date_details = release_date.split('-')
-				year = int(date_details[0])
-				month = int(date_details[1])
-				day = int(date_details[2])
+		if movie_check is None:
+			try:
+				forced_id = id
+				title = body.get('title', None)
+				release_date = body.get('release_date', None)
 
-				movie = Movie(
-					title = title,
-					release_date = datetime.datetime(year, month, day))
-				movie.id = forced_id
+				if title and release_date:
+					date_details = release_date.split('-')
+					year = int(date_details[0])
+					month = int(date_details[1])
+					day = int(date_details[2])
 
-				try:
-					movie.insert()
+					movie = Movie(
+						title = title,
+						release_date = datetime.datetime(year, month, day))
+					movie.id = forced_id
 
-				except Exception:
-					abort(422)
+					try:
+						movie.insert()
 
-				return jsonify({
-					'success': True,
-					'movie_id': movie.id,
-					'movie_title': movie.title,
-					'movie_release_date': movie.release_date
-				})
+					except Exception:
+						abort(422)
 
-			else:
-				abort(400)
+					return jsonify({
+						'success': True,
+						'movie_id': movie.id,
+						'movie_title': movie.title,
+						'movie_release_date': movie.release_date
+					})
 
-		except Exception:
-			# Return Unprocessable Entity error if the Try block fails
-			abort(422)
+				else:
+					abort(400)
+
+			except Exception:
+				# Return Unprocessable Entity error if the Try block fails
+				abort(422)
+
+		else:
+			return jsonify({
+				'success': False,
+				'movie_id': movie_check.id,
+				'movie_title': movie_check.title,
+				'movie_release_date': movie_check.release_date,
+				'movie_cast': movie_check.cast,
+				'message': 'A movie with that ID alread exists. Details are included in this response.'
+			}), 200
 	# END Testing Routes for Postman
 
 	# Error Handling
