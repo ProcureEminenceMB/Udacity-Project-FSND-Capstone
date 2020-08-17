@@ -144,7 +144,31 @@ def create_app(test_config=None):
 	# END POST Routes
 
 	# PATCH Routes
+	@app.route('/actors/<int:id>', methods=['PATCH'])
+	def patch_actors(id):
+		# Get actor details for the matching ID
+		actor = Actor.query.get(id)
 
+		try:
+			# Loop through updated keys and update the values
+			for attribute, value in request.json.items():
+				setattr(actor, attribute, value)
+
+			# Push updated values to the DB
+			actor.update()
+
+			# Return all actor details after update is completed
+			return jsonify({
+				'success': True,
+				'actor_id': actor.id,
+				'actor_name': actor.name,
+				'actor_age': actor.age,
+				'actor_gender': actor.gender
+			}), 200
+
+		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
+			abort(422)
 	# END PATCH Routes
 
 	# DELETE Routes
