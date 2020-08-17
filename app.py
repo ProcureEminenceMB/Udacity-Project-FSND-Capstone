@@ -16,7 +16,7 @@ def create_app(test_config=None):
 	# GET Routes
 	@app.route('/actors', methods=['GET'])
 	@requires_auth('get:actors')
-	def get_actors():
+	def get_actors(payload):
 		try:
 			# Get a list of all actors in DB
 			actorList = Actor.query.all()
@@ -43,7 +43,7 @@ def create_app(test_config=None):
 
 	@app.route('/movies', methods=['GET'])
 	@requires_auth('get:movies')
-	def get_movies():
+	def get_movies(payload):
 		try:
 			# Get a list of all movies in DB
 			movieList = Movie.query.all()
@@ -72,7 +72,7 @@ def create_app(test_config=None):
 	# POST Routes
 	@app.route('/actors', methods=['POST'])
 	@requires_auth('post:actors')
-	def add_actor():
+	def add_actor(payload):
 		body = request.get_json()
 
 		try:
@@ -109,7 +109,7 @@ def create_app(test_config=None):
 
 	@app.route('/movies', methods=['POST'])
 	@requires_auth('post:movies')
-	def add_movie():
+	def add_movie(payload):
 		body = request.get_json()
 
 		try:
@@ -150,7 +150,7 @@ def create_app(test_config=None):
 	# PATCH Routes
 	@app.route('/actors/<int:id>', methods=['PATCH'])
 	@requires_auth('patch:actors')
-	def patch_actors(id):
+	def patch_actors(payload, id):
 		# Get actor details for the matching ID
 		actor = Actor.query.get(id)
 
@@ -177,7 +177,7 @@ def create_app(test_config=None):
 
 	@app.route('/movies/<int:id>', methods=['PATCH'])
 	@requires_auth('patch:movies')
-	def patch_movies(id):
+	def patch_movies(payload, id):
 		# Get movie details for the matching ID
 		movie = Movie.query.get(id)
 
@@ -210,7 +210,7 @@ def create_app(test_config=None):
 	# DELETE Routes
 	@app.route('/actors/<int:id>', methods=['DELETE'])
 	@requires_auth('delete:actors')
-	def delete_actors(id):
+	def delete_actors(payload, id):
 		# Get actor details for the matching ID
 		actor = Actor.query.get(id)
 
@@ -229,7 +229,7 @@ def create_app(test_config=None):
 
 	@app.route('/movies/<int:id>', methods=['DELETE'])
 	@requires_auth('delete:movies')
-	def delete_movies(id):
+	def delete_movies(payload, id):
 		# Get movie details for the matching ID
 		movie = Movie.query.get(id)
 
