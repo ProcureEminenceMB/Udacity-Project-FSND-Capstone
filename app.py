@@ -17,14 +17,17 @@ def create_app(test_config=None):
 	@app.route('/actors', methods=['GET'])
 	def get_actors():
 		try:
+			# Get a list of all actors in DB
 			actorList = Actor.query.all()
 
+			# Return the list of actors if at least one exists
 			if len(actorList) > 0:
 				return jsonify({
 					'success': True,
 					'actors': [actor.format() for actor in actorList],
 					'actor_count': len(actorList)
 				}), 200
+
 			else:
 				return jsonify({
 					'success': False,
@@ -34,19 +37,23 @@ def create_app(test_config=None):
 				}), 200
 
 		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
 			abort(422)
 
 	@app.route('/movies', methods=['GET'])
 	def get_movies():
 		try:
+			# Get a list of all movies in DB
 			movieList = Movie.query.all()
 
+			# Return the list of movies if at least one exists
 			if len(movieList) > 0:
 				return jsonify({
 					'success': True,
 					'movies': [movie.format() for movie in movieList],
 					'movie_count': len(movieList)
 				}), 200
+
 			else:
 				return jsonify({
 					'success': False,
@@ -56,6 +63,7 @@ def create_app(test_config=None):
 				}), 200
 
 		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
 			abort(422)
 	# END GET Routes
 
@@ -93,6 +101,7 @@ def create_app(test_config=None):
 				abort(400)
 
 		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
 			abort(422)
 
 	@app.route('/movies', methods=['POST'])
@@ -130,6 +139,7 @@ def create_app(test_config=None):
 				abort(400)
 
 		except Exception:
+			# Return Unprocessable Entity error if the Try block fails
 			abort(422)
 	# END POST Routes
 
