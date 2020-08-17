@@ -167,8 +167,7 @@ def create_app(test_config=None):
 			}), 200
 
 		except Exception:
-			# Return Unprocessable Entity error if the Try block fails
-			abort(422)
+			# Return Not Found error if the Try block fails
 
 	@app.route('/movies/<int:id>', methods=['PATCH'])
 	def patch_movies(id):
@@ -197,8 +196,8 @@ def create_app(test_config=None):
 			}), 200
 
 		except Exception:
-			# Return Unprocessable Entity error if the Try block fails
-			abort(422)
+			# Return Not Found error if the Try block fails
+			abort(404)
 	# END PATCH Routes
 
 	# DELETE Routes
