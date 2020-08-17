@@ -12,7 +12,7 @@ def create_app(test_config=None):
 	setup_db(app)
 	CORS(app)
 
-	# Routes
+	# GET Routes
 	@app.route('/actors', methods=['GET'])
 	def get_actors():
 		try:
@@ -21,7 +21,7 @@ def create_app(test_config=None):
 			if len(actorList) > 0:
 				return jsonify({
 					'success': True,
-					'actors': [actor.short() for actor in actorList],
+					'actors': [actor.format() for actor in actorList],
 					'actor_count': len(actorList)
 				}), 200
 			else:
@@ -43,7 +43,7 @@ def create_app(test_config=None):
 			if len(movieList) > 0:
 				return jsonify({
 					'success': True,
-					'movies': [movie.short() for movie in movieList],
+					'movies': [movie.format() for movie in movieList],
 					'movie_count': len(movieList)
 				}), 200
 			else:
