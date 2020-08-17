@@ -20,7 +20,7 @@ def setup_db(app, database_path=database_path):
 	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 	db.app = app
 	db.init_app(app)
-	db.drop_all()
+	#db.drop_all()
 	db.create_all()
 
 # Classes
@@ -32,7 +32,7 @@ class Actor(db.Model):
 	age = Column(Integer)
 	gender = Column(String)
 
-	def __init__(self, name, age,  gender):
+	def __init__(self, name, age, gender):
 		self.name = name
 		self.age = age
 		self.gender = gender
