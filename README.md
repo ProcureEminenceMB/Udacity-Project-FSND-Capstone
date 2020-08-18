@@ -65,3 +65,6 @@ The following environment variables are included in the ```setup.sh``` for easy 
 	- `patch:movies`
 	- `delete:actors`
 	- `delete:movies`
+
+## API Endpoint Testing
+All testing for this API was accomplished via [Postman](https://www.postman.com/). These tests have been included in this repository in the form of a Postman collection file (`udacity-fsnd-capstone.postman_collection.json`). You can import this collection and run the tests once you have finished setting up your server.
