@@ -6,7 +6,7 @@ This API was created for the final FSND project.
 ## Live Server URL
 [https://udacity-casting-agency-app.herokuapp.com/](https://udacity-casting-agency-app.herokuapp.com/)
 
-## Server Setup Instructions
+## Local Server Setup Instructions
 If you decide to run this API on your own local server, use the following instructions.
 1. Install Python 3.7
 2. Install GIT
@@ -28,6 +28,9 @@ If you decide to run this API on your own local server, use the following instru
 	```set FLASK_APP=app.py```
 9. Run the server.
 ```flask run``` 
+
+## Live Server Setup
+To replicate the current live server you will need to create a Heroku account, create an app, and then push the local code to your Heroku app server.
 
 ## Auth0 Requirements
 
