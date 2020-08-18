@@ -7,9 +7,9 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 ALGORITHMS = ['RS256']
-API_AUDIENCE = os.environ['API_AUDIENCE']
+API_AUDIENCE = os.getenv('API_AUDIENCE')
 
 
 class AuthError(Exception):  # AuthError Exception
@@ -72,8 +72,6 @@ def verify_decode_jwt(token):
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
     rsa_key = {}
-
-    print(token)
 
     if 'kid' not in unverified_header:
         raise AuthError({
