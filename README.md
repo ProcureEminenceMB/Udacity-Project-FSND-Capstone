@@ -29,6 +29,10 @@ If you decide to run this API on your own local server, use the following instru
 9. Run the server.
 ```flask run``` 
 
+## Auth0 Requirements
+
+The following environment variables are included in the ```setup.sh``` for easy testing of the API: AUTH0_DOMAIN, API_AUDIENCE, and ALGORITHMS. You will need to update the containing values if you choose to start your own Auth0 account. The JWTs are located inside the Postman test collection (```udacity-fsnd-capstone.postman_collection.json```).
+
 ## API Reference
 ### GET Routes
 
