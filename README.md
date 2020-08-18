@@ -37,13 +37,29 @@ To replicate the current live server you will need to create a Heroku account, c
 The following environment variables are included in the ```setup.sh``` for easy testing of the API: AUTH0_DOMAIN, API_AUDIENCE, and ALGORITHMS. You will need to update the containing values if you choose to start your own Auth0 account. The JWTs are located inside the Postman test collection (```udacity-fsnd-capstone.postman_collection.json```).
 
 ## API Reference
-### GET Routes
+### GET Endpoints
+ - `/actors`
+	 - Returns the entire list of actors.
+ - `/movies`
+	 - Returns the entire list of movies.
 
-### POST Routes
+### POST Endpoints
+- `/actors`
+	- Adds a new actor to the database.
+- `/movies`
+	- Adds a new movie to the database.
 
-### PATCH Routes
+### PATCH Endpoints
+- `/actors/<int:id>`
+	- Updates details regarding a specific actor.
+- `/movies/<int:id>`
+	- Updates details regarding a specific movie.
 
-### DELETE Routes
+### DELETE Endpoints
+- `/actors/<int:id>`
+	- Removes a specific actor from the database.
+- `/movies/<int:id>`
+	- Removes a specific movie from the database.
 
 ### Roles & Permissions
 - Assistant Role
