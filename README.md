@@ -37,3 +37,24 @@ If you decide to run this API on your own local server, use the following instru
 ### PATCH Routes
 
 ### DELETE Routes
+
+### Roles & Permissions
+- Assistant Role
+	- `get:actors`
+	- `get:movies`
+- Director Role
+	- `get:actors`
+	- `get:movies`
+	- `post:actors`
+	- `patch:actors`
+	- `patch:movies`
+	- `delete:actors`
+- Producer Role
+	- `get:actors`
+	- `get:movies`
+	- `post:actors`
+	- `post:movies`
+	- `patch:actors`
+	- `patch:movies`
+	- `delete:actors`
+	- `delete:movies`
